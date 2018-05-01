@@ -148,29 +148,45 @@ func RefDumpKind(kind reflect.Kind) string {
 }
 
 func RefDumpValueString(value reflect.Value) (result string, isvalue bool) {
-	switch value.Kind() {
+	var prepend string
+	v := value
+	for v.Kind() == reflect.Ptr {
+		prepend += "Ptr "
+		if v.IsNil() {
+			break
+		}
+		v = v.Elem()
+	}
+
+	switch v.Kind() {
 	case reflect.Invalid:
-		return "<INVALID>", false
+		return prepend + "<INVALID>", false
 	case reflect.Bool:
-		if value.Bool() {
-			return "TRUE", true
+		if v.Bool() {
+			return prepend + "TRUE", true
 		} else {
-			return "FALSE", true
+			return prepend + "FALSE", true
 		}
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-		return fmt.Sprintf("%d", value.Int()), true
+		return prepend + fmt.Sprintf("%d", v.Int()), true
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
-		return fmt.Sprintf("%d", value.Uint()), true
+		return prepend + fmt.Sprintf("%d", v.Uint()), true
 	case reflect.Uintptr:
-		return "<UINTPTR>", false
+		return prepend + "<UINTPTR>", false
 	case reflect.Float32, reflect.Float64:
-		return fmt.Sprintf("%f", value.Float()), true
+		return prepend + fmt.Sprintf("%f", v.Float()), true
 	case reflect.Complex64, reflect.Complex128:
-		return fmt.Sprintf("%f", value.Complex()), true
-	case reflect.Array, reflect.Chan, reflect.Func, reflect.Interface, reflect.Map, reflect.Ptr, reflect.Slice, reflect.Struct, reflect.UnsafePointer:
-		return "", false
+		return prepend + fmt.Sprintf("%f", v.Complex()), true
+	case reflect.Ptr:
+		if v.IsNil() {
+			return prepend + "<nil>", true
+		} else {
+			return prepend + "<pointer>", true
+		}
+	case reflect.Array, reflect.Chan, reflect.Func, reflect.Interface, reflect.Map, reflect.Slice, reflect.Struct, reflect.UnsafePointer:
+		return prepend + "", false
 	case reflect.String:
-		return fmt.Sprintf("%q", value.String()), true
+		return prepend + fmt.Sprintf("%q", v.String()), true
 	}
-	return "", false
+	return prepend + "", false
 }

@@ -1,8 +1,9 @@
+// This library contains helpers to generate textual strings of the "reflect"
+// package's values, like "reflect.Value", "reflect.Type", "reflect.Kind".
 package refdump
 
 /*
-This library contains helpers to generate textual strings of the "reflect"
-package's values, like "reflect.Value", "reflect.Type", "reflect.Kind".
+Example
 
     type S1 struct {
         A1 int

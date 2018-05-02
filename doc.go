@@ -1,8 +1,7 @@
-// This library contains helpers to generate textual strings of the "reflect"
-// package's values, like "reflect.Value", "reflect.Type", "reflect.Kind".
-package refdump
-
 /*
+This library contains helpers to generate textual strings of the "reflect"
+package's values, like "reflect.Value", "reflect.Type", "reflect.Kind".
+
 Example
 
     type S1 struct {
@@ -32,3 +31,4 @@ Output:
     Kind:(Map) Key:{Kind:(String)} Elem:{Kind:(Ptr Struct) Name:(*main.XX)} Len:(0) [!CanAddr,!CanSet]
 
 */
+package refdump

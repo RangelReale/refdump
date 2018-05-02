@@ -41,7 +41,12 @@ func RefDumpTypeGet(typ reflect.Type) (reflect.Type, string) {
 }
 
 func RefDumpValue(value reflect.Value) string {
-	_, ret := RefDumpTypeGet(value.Type())
+	var ret string
+	if value.IsValid() {
+		_, ret = RefDumpTypeGet(value.Type())
+	} else {
+		ret = "Kind:(INVALID)"
+	}
 
 	v := value
 	for v.Kind() == reflect.Ptr {
@@ -64,11 +69,13 @@ func RefDumpValue(value reflect.Value) string {
 	if !value.CanAddr() {
 		flags = append(flags, "!CanAddr")
 	}
-	if !value.CanInterface() {
-		flags = append(flags, "!CanInterface")
-	}
-	if !value.CanSet() {
-		flags = append(flags, "!CanSet")
+	if value.IsValid() {
+		if !value.CanInterface() {
+			flags = append(flags, "!CanInterface")
+		}
+		if !value.CanSet() {
+			flags = append(flags, "!CanSet")
+		}
 	}
 	switch value.Kind() {
 	case reflect.Chan, reflect.Func, reflect.Map, reflect.Ptr, reflect.Interface, reflect.Slice:

@@ -1,5 +1,7 @@
 # Golang reflect dump
 
+[![GoDoc](https://godoc.org/github.com/RangelReale/refump?status.svg)](https://godoc.org/github.com/RangelReale/refdump)
+
 This library contains helpers to generate textual strings of the "reflect" 
 package's values, like "reflect.Value", "reflect.Type", "reflect.Kind".
 

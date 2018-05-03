@@ -12,6 +12,10 @@ func RefDumpType(typ reflect.Type) string {
 }
 
 func RefDumpTypeGet(typ reflect.Type) (reflect.Type, string) {
+	if typ == nil {
+		return nil, "<nil>"
+	}
+
 	kind := ""
 	ptr := ""
 	vt := typ

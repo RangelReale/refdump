@@ -32,6 +32,11 @@ func RefDumpTypeGet(typ reflect.Type) (reflect.Type, string) {
 		ret += fmt.Sprintf(" Key:{%s}", RefDumpType(vt.Key()))
 	}
 
+	// array
+	if vt.Kind() == reflect.Array {
+		ret += fmt.Sprintf(" Len:{%d}", vt.Len())
+	}
+
 	// array / map
 	if vt.Kind() == reflect.Array || vt.Kind() == reflect.Slice || vt.Kind() == reflect.Map {
 		ret += fmt.Sprintf(" Elem:{%s}", RefDumpType(vt.Elem()))
